@@ -12,7 +12,12 @@ The file `main.c` has an example of how to use the Keyboard, Screen nd Timer fun
 
 To build this example via command line, just switch to library root directory and type the following command:
 ```
-$ gcc ./src/*.c -I./include -o cli-lib-example
+gcc ./src/*.c -I./include -o run
+```
+
+To run
+```
+./run
 ```
 
 To use this library to create your own apps, simply add source and header files to your project and compile it together with your own code, 
