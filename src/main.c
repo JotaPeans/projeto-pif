@@ -88,7 +88,7 @@ int main() {
             sprintf(str, "%d", key);
 
             printString(MAXX / 2, MAXY, str, YELLOW);
-            printPlayer(player, player.body, 2);
+            printPlayer(player, 2);
 
             screenUpdate();
         }

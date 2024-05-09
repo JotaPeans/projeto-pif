@@ -13,7 +13,7 @@ typedef struct player {
 
 void cleanScreen();
 
-void printPlayer(Player player, char *string, int color);
+void printPlayer(Player player, int color);
 
 int cantMoveX(Player player, int key);
 

@@ -17,13 +17,13 @@ void cleanScreen() {
     }
 }
 
-void printPlayer(Player player, char *string, int color) {
+void printPlayer(Player player, int color) {
     screenSetColor(color, DARKGRAY);
 
     // cleanScreen();
 
     screenGotoxy(player.x, player.y);
-    printf("%s", string);
+    printf("%s", player.body);
 
     if(player.x != player.prevX || player.y != player.prevY) {
         screenGotoxy(player.prevX, player.prevY);
