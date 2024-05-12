@@ -4,23 +4,25 @@
 #include "screen.h"
 #include "commands.h"
 
+int getFreeListSize(NodeFree *listaFree) {
+    NodeFree *aux = listaFree;
+    int count = 1;
 
-void cleanScreen() {
-    int lim = 0;
-
-    for (int i = 2; i < MAXY; i++) {
-        screenGotoxy(MINX+1, i);
-
-        for (int j = 0; j < MAXX - 3; j++){
-            printf(" ");
+    while(aux->free.x) {
+        if(aux->next != NULL) {
+            aux = aux->next;
+            count++;
         }
+        else
+            break;
     }
+
+    return count;
 }
 
-void printPlayer(Player player, int color) {
-    screenSetColor(color, DARKGRAY);
 
-    // cleanScreen();
+void movePlayer(Player player, NodeFree *listaFree) {
+    NodeFree *aux = listaFree;
 
     screenGotoxy(player.x, player.y);
     printf("%s", player.body);
@@ -28,27 +30,88 @@ void printPlayer(Player player, int color) {
     if(player.x != player.prevX || player.y != player.prevY) {
         screenGotoxy(player.prevX, player.prevY);
         printf("🟧");
+        
+        while(aux->free.x) {
+            if(player.x == aux->free.x && player.y == aux->free.y) {
+                aux->free.touched = 1;
+            }
+
+            if(aux->free.x == 4 && aux->free.y == MAXY-2) {
+                aux->free.touched = 1;
+            }
+
+            if(aux->next != NULL)
+                aux = aux->next;
+            else
+                break;
+        }
     }
 }
 
-int cantMoveX(Player player, int key) {
-    return (key != up && key != down) && (player.x >= (MAXX - strlen(player.body) + 1) || player.x <= MINX);
+int playerWon(Player player, NodeFree *listaFree) {
+    NodeFree *aux = listaFree;
+    int touched = 0;
+
+    while(aux->free.x) {
+        if(aux->free.touched == 1) 
+            touched++;
+
+        if(aux->next != NULL)
+            aux = aux->next;
+        else
+            break;
+    }
+
+    if(touched == getFreeListSize(listaFree))
+        return 1;
+    else
+        return 0;
 }
 
-int cantMoveY(Player player, int key) {
-    return (key != left && key != right) && (player.y >= MAXY-1 || player.y <= MINY+1);
-}
 
-int canMoveX(Player player, int key, int dir) {
-    if(dir == 1)
+int canMove(Player player, int key, Node *wallList) {
+    Node *aux = wallList;
+
+    while(aux->wall.x) {
+        if(key == right) {
+            if(player.y == aux->wall.y && player.x < aux->wall.x) {
+                return player.x+2 != aux->wall.x;
+            }
+        }
+
+        else if(key == left) {
+            if(player.y == aux->wall.y && player.x-2 == aux->wall.x) {
+                return player.x-2 != aux->wall.x;
+            }
+        }
+
+        else if(key == up) {
+            if(player.x == aux->wall.x && player.y-1 == aux->wall.y) {
+                return player.y-1 != aux->wall.y;
+            }
+        }
+
+        else if(key == down) {
+            if(player.x == aux->wall.x && player.y < aux->wall.y) {
+                return player.y+1 != aux->wall.y;
+            }
+        }
+
+        if(aux->next != NULL)
+            aux = aux->next;
+        else
+            break;
+    }
+
+    if(key == right)
         return player.x <= (MAXX - strlen(player.body));
-    else
-        return player.x >= MINX + 2;
-}
 
-int canMoveY(Player player, int key, int dir) {
-    if(dir == 1)
+    else if(key == left)
+        return player.x >= MINX + 2;
+
+    else if(key == down)
         return player.y <= MAXY - 2;
-    else
+
+    else if(key == up)
         return player.y >= MINY + 2;
 }

@@ -50,10 +50,8 @@
 
 #define MINX           1      // min screen horizontal pos
 #define MINY           1      // min screen vertical pos
-// #define MAXX           80     // max screen horizontal pos
-#define MAXX           52     // max screen horizontal pos
-#define MAXY           24     // max screen vertical pos
-
+extern int MAXX;     // max screen horizontal pos
+extern int MAXY;     // max screen vertical pos
 /**
  * Screen Colors type
 */
@@ -156,8 +154,18 @@ static inline void screenBoxDisable()
  * and optionally draw borders on it.
  * 
  * @param drawBorders if not zero, draw borders on screen.
+ * @param tam_x size x of screen
+ * @param tam_y size y of screen
 */
-void screenInit(int drawBorders);
+void screenInit(int drawBorders, int tam_x, int tam_y);
+
+/**
+ * Clear the screen, set cursor to home position
+ * and optionally draw borders on it.
+ * 
+ * @param drawBorders if not zero, draw borders on screen.
+*/
+void screenDefaultInit(int drawBorders);
 
 /**
  * Clear the screen and restores to initial state.

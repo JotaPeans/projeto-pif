@@ -7,6 +7,10 @@
 
 #include "screen.h"
 
+int MAXX = 18;     // max screen horizontal pos
+int MAXY = 9;     // max screen vertical pos
+
+
 void screenDrawBorders() 
 {
     char hbc = BOX_HLINE;
@@ -48,8 +52,17 @@ void screenDrawBorders()
     
 }
 
-void screenInit(int drawBorders)
+void screenInit(int drawBorders, int tam_x, int tam_y)
 {
+    MAXX = tam_x;
+    MAXY = tam_y;
+    screenClear();
+    if (drawBorders) screenDrawBorders();
+    screenHomeCursor();
+    screenHideCursor();
+}
+
+void screenDefaultInit(int drawBorders) {
     screenClear();
     if (drawBorders) screenDrawBorders();
     screenHomeCursor();

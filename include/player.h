@@ -1,3 +1,28 @@
+typedef struct wall {
+    double x; // Coordenadas
+    double y;
+} Wall;
+
+
+typedef struct free {
+    double x; // Coordenadas
+    double y;
+    int touched;
+} Free;
+
+
+typedef struct node {
+    Wall wall;
+    struct node *next;
+} Node;
+
+
+typedef struct nodeFree {
+    Free free;
+    struct nodeFree *next;
+} NodeFree;
+
+
 typedef struct player {
     double x; // Coordenadas
     double y;
@@ -11,14 +36,17 @@ typedef struct player {
     double incY;
 } Player;
 
-void cleanScreen();
 
-void printPlayer(Player player, int color);
+void pushWall(Node **lista, Wall wall);
 
-int cantMoveX(Player player, int key);
+void pushFree(NodeFree **lista, Free wall);
 
-int cantMoveY(Player player, int key);
+void buildWall(Node **lista, NodeFree **listaFree);
 
-int canMoveX(Player player, int key, int dir);
+int getFreeListSize(NodeFree *listaFree);
 
-int canMoveY(Player player, int key, int dir);
+void movePlayer(Player player, NodeFree *listaFree);
+
+int playerWon(Player player, NodeFree *listaFree);
+
+int canMove(Player player, int key, Node *wallList);
