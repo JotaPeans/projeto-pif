@@ -21,7 +21,7 @@ int getFreeListSize(NodeFree *listaFree) {
 }
 
 
-void movePlayer(Player player, NodeFree *listaFree) {
+void movePlayerOnMap(Player player, NodeFree *listaFree) {
     NodeFree *aux = listaFree;
 
     screenGotoxy(player.x, player.y);

@@ -46,34 +46,12 @@ void pushFree(NodeFree **lista, Free free) {
     aux->next = new;
 }
 
-void buildWall(Node **lista, NodeFree **listaFree) {
+void buildWall(Node **lista, NodeFree **listaFree, Wall walls[], int wallsSize) {
     Wall wall;
     Free spaceFree;
     int size = strlen("⬜"); // 3
 
-    Wall walls[] = {
-        {6, 4},
-        {6, 5},
-        {10, 4},
-        {10, 5},
-        {10, 7},
-        {12, 7},
-    };
-    // Wall walls[] = {
-    //     {4, 4},
-    //     {6, 4},
-    //     {8, 4},
-    //     {8, 5},
-    //     {12, 7},
-    // };
-    // Wall walls[] = {
-    //     {4, 3},
-    //     {6, 6},
-    //     {12, 7},
-    // };
-
     int iterator = 0;
-    int wallsSize = sizeof(walls) / sizeof(walls[0]);
     
     while(iterator < wallsSize) {
         wall.x = walls[iterator].x;

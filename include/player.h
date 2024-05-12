@@ -41,12 +41,14 @@ void pushWall(Node **lista, Wall wall);
 
 void pushFree(NodeFree **lista, Free wall);
 
-void buildWall(Node **lista, NodeFree **listaFree);
+void buildWall(Node **lista, NodeFree **listaFree, Wall walls[], int wallsSize);
 
 int getFreeListSize(NodeFree *listaFree);
 
-void movePlayer(Player player, NodeFree *listaFree);
+void movePlayerOnMap(Player player, NodeFree *listaFree);
 
 int playerWon(Player player, NodeFree *listaFree);
 
 int canMove(Player player, int key, Node *wallList);
+
+void initGame(Wall walls[]);

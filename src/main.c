@@ -13,14 +13,6 @@
 #include "player.h"
 #include "commands.h"
 
-int x = 34, y = 12;
-int incX = 2, incY = 1;
-
-typedef struct size {
-    int x;
-    int y;
-} Size;
-
 
 void printString(int x, int y, char *string, int color) {
     screenSetColor(color, DARKGRAY);
@@ -28,118 +20,51 @@ void printString(int x, int y, char *string, int color) {
     printf("%s", string);
 }
 
-Size updateScreenSize(int tam_y) {
-    Size size;
-    size.y = tam_y;
-    size.x = tam_y * 2;
-    
-    return size;
-}
-
-void showWallsCoords(Node *lista) {
-    Node *aux = lista;
-
-    while(aux->wall.x) {
-        printf("%f - %f\n", aux->wall.x, aux->wall.y);
-
-        if(aux->next != NULL)
-            aux = aux->next;
-        else
-            break;
-    }
-}
-
-void showFreeCoords(NodeFree *lista) {
-    NodeFree *aux = lista;
-
-    while(aux->free.x) {
-        printf("%f - %f - %d\n", aux->free.x, aux->free.y, aux->free.touched);
-
-        if(aux->next != NULL)
-            aux = aux->next;
-        else
-            break;
-    }
-}
+// Wall walls[] = {
+//     {6, 4},
+//     {6, 5},
+//     {10, 4},
+//     {10, 5},
+//     {10, 7},
+//     {12, 7},
+// };
+Wall walls[] = {
+    {4, 4},
+    {6, 4},
+    {8, 4},
+    {8, 5},
+    {12, 7},
+};
+// Wall walls[] = {
+//     {4, 3},
+//     {6, 6},
+//     {12, 7},
+// };
+// Wall walls[] = {
+//     {6, 4},
+//     {6, 5},
+//     {6, 6},
+//     {8, 4},
+//     {8, 5},
+//     {8, 6},
+//     {10, 4},
+//     {10, 5},
+//     {10, 6},
+// };
 
 
 int main() {
-    static int key = 0;
-    int won;
+    int level;
 
-    screenDefaultInit(0);
-    keyboardInit();
-    timerInit(60);
-    
-    Player player;
-    player.incX = incX;
-    player.incY = incY;
-    player.x = 4;
-    player.y = MAXY-2;
-    player.prevX = player.x;
-    player.prevY = player.y;
-    player.body = "⬆️";
+    // screenDefaultInit(0);
+    // keyboardInit();
+    // timerInit(60);
 
-    Node *wallList = NULL;
-    NodeFree *freeList = NULL;
-    
-    buildWall(&wallList, &freeList);
-    
-    screenUpdate();
+    // keyboardDestroy();
+    // screenDestroy();
+    // timerDestroy();
 
-    while (key != 10) {
-        if (keyhit() && key == 0) {
-            key = readch();
-            
-            screenUpdate();
-        }
-
-        if (timerTimeOver() == 1) {
-            player.prevY = player.y;
-            player.prevX = player.x;
-
-            if(key == up && canMove(player, key, wallList)) {
-                player.body = "⬆️";
-
-                player.y -= player.incY;
-            }
-            else if(key == down && canMove(player, key, wallList)) {
-                player.body = "⬇️";
-                
-                player.y += player.incY;
-            }
-            else if(key == left && canMove(player, key, wallList)) {
-                player.body = "⬅️";
-
-                player.x -= player.incX;
-            }
-            else if(key == right && canMove(player, key, wallList)) {
-                player.body = "➡️";
-                
-                player.x += player.incX;
-            }
-            else {
-                key = 0;
-            }
-
-            movePlayer(player, freeList);
-
-            won = playerWon(player, freeList);
-
-            if(won) {
-                break;
-            }
-
-            screenUpdate();
-        }
-    }
-
-    keyboardDestroy();
-    screenDestroy();
-    timerDestroy();
-
-    free(wallList);
-    free(freeList);
+    initGame(walls);
 
     return 0;
 }
