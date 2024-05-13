@@ -63,6 +63,8 @@ void screenInit(int drawBorders, int tam_y)
 }
 
 void screenDefaultInit(int drawBorders) {
+    MAXX = 18;     // max screen horizontal pos
+    MAXY = 9; 
     screenClear();
     if (drawBorders) screenDrawBorders();
     screenHomeCursor();
