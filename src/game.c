@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "screen.h"
 #include "keyboard.h"
@@ -85,11 +86,12 @@ void initGame(Wall walls[], int tam_y) {
 
             won = playerWon(player, freeList);
 
+            screenUpdate();
+
             if(won) {
+                usleep(300 * 1000);
                 break;
             }
-
-            screenUpdate();
         }
     }
 
