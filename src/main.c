@@ -51,9 +51,46 @@ Wall levels[][25] = {
     }
 };
 
+void readWalls(const char* filename, Wall walls[], int level) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("Failed to open file");
+        return;
+    }
+
+    char line[256];
+    int count = 0;
+    int i = 0;
+    
+    while (fgets(line, sizeof(line), file)) {
+        if(line[0] == '{' || line[0] == '}')
+            continue;
+
+        if(line[4] == '{') {
+            if(count != level){
+                count++;
+                continue;
+            }
+            else {
+                continue;
+            }
+        };
+        
+        if(line[8] == '{' && count == level) {
+            sscanf(line, "        {%d, %d}", &walls[i].x, &walls[i].y );
+            i++;
+            continue;
+        }
+
+        if(line[4] == '}' && count == level)
+            break;
+    }
+
+    fclose(file);
+}
 
 int main() {
-    int level = 3;
+    int level = 2;
 
     // screenDefaultInit(0);
     // keyboardInit();
@@ -64,16 +101,18 @@ int main() {
     // timerDestroy();
 
     Wall *walls = (Wall *) malloc(100 * sizeof(Wall));
+    
+    readWalls("levels.txt", walls, level);
 
-    int i = 0;
-    while (1) {
-        int x = levels[level - 1][i].x;
-        if(x) {
-            walls[i] = levels[level - 1][i];
-            i++;
-        }
-        else break;
-    }
+    // int i = 0;
+    // while (1) {
+    //     int x = levels[level - 1][i].x;
+    //     if(x) {
+    //         walls[i] = levels[level - 1][i];
+    //         i++;
+    //     }
+    //     else break;
+    // }
 
     initGame(walls, 0);
 
