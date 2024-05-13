@@ -10,12 +10,11 @@
 #include "player.h"
 #include "screen.h"
 
-
 void printString(int x, int y, char *string, int color);
-void readWalls(const char* filename, Wall walls[], int level);
+void readWalls(const char* filename, Wall walls[], int level, int *screenSize);
 
 int main() {
-    int level = 2;
+    int level = 7;
 
     // screenDefaultInit(0);
     // keyboardInit();
@@ -26,10 +25,11 @@ int main() {
     // timerDestroy();
 
     Wall *walls = (Wall *) malloc(100 * sizeof(Wall));
+    int screenSize = 0;
     
-    readWalls("levels.txt", walls, level);
+    readWalls("levels.txt", walls, level, &screenSize);
 
-    initGame(walls, 0);
+    initGame(walls, screenSize);
 
     free(walls);
 
@@ -44,7 +44,7 @@ void printString(int x, int y, char *string, int color) {
 }
 
 
-void readWalls(const char* filename, Wall walls[], int level) {
+void readWalls(const char* filename, Wall walls[], int level, int *screenSize) {
     FILE *file = fopen(filename, "r");
     if (!file) {
         perror("Failed to open file");
@@ -54,28 +54,40 @@ void readWalls(const char* filename, Wall walls[], int level) {
     char line[256];
     int count = 0;
     int i = 0;
+    int size;
     
     while (fgets(line, sizeof(line), file)) {
-        if(line[0] == '{' || line[0] == '}')
+
+        size_t len = strlen(line);
+        if (line[len - 1] == '\n') {
+            line[len - 1] = '\0';  // Substitui '\n' por '\0'
+        }
+        
+        if(line[0] == '[')
             continue;
 
-        if(line[4] == '{') {
+        else if(line[4] == '[') {
             if(count != level){
                 count++;
+
+                if(count == level) {
+                    sscanf(line, "    [ size = %d", &size);
+                    printf("s = %d\n", size);
+                    *screenSize = size; 
+                    continue;
+                }
+
                 continue;
             }
-            else {
-                continue;
-            }
-        };
+        }
         
-        if(line[8] == '{' && count == level) {
-            sscanf(line, "        {%d, %d}", &walls[i].x, &walls[i].y );
+        else if(strncmp(line, "        {", 9) == 0 && count == level) {
+            sscanf(line, "        {%d, %d},", &walls[i].x, &walls[i].y );
             i++;
             continue;
         }
 
-        if(line[4] == '}' && count == level)
+        else if(line[4] == ']' && count == level)
             break;
     }
 
