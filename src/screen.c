@@ -52,10 +52,10 @@ void screenDrawBorders()
     
 }
 
-void screenInit(int drawBorders, int tam_x, int tam_y)
+void screenInit(int drawBorders, int tam_y)
 {
-    MAXX = tam_x;
     MAXY = tam_y;
+    MAXX = tam_y * 2;
     screenClear();
     if (drawBorders) screenDrawBorders();
     screenHomeCursor();

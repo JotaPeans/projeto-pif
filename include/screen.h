@@ -157,7 +157,7 @@ static inline void screenBoxDisable()
  * @param tam_x size x of screen
  * @param tam_y size y of screen
 */
-void screenInit(int drawBorders, int tam_x, int tam_y);
+void screenInit(int drawBorders, int tam_y);
 
 /**
  * Clear the screen, set cursor to home position

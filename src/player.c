@@ -74,26 +74,26 @@ int canMove(Player player, int key, Node *wallList) {
 
     while(aux->wall.x) {
         if(key == right) {
-            if(player.y == aux->wall.y && player.x < aux->wall.x) {
-                return player.x+2 != aux->wall.x;
+            if(player.y == aux->wall.y && player.x+2 == aux->wall.x) {
+                return 0;
             }
         }
 
         else if(key == left) {
             if(player.y == aux->wall.y && player.x-2 == aux->wall.x) {
-                return player.x-2 != aux->wall.x;
+                return 0;
             }
         }
 
         else if(key == up) {
             if(player.x == aux->wall.x && player.y-1 == aux->wall.y) {
-                return player.y-1 != aux->wall.y;
+                return 0;
             }
         }
 
         else if(key == down) {
-            if(player.x == aux->wall.x && player.y < aux->wall.y) {
-                return player.y+1 != aux->wall.y;
+            if(player.x == aux->wall.x && player.y+1 == aux->wall.y) {
+                return 0;
             }
         }
 
@@ -114,4 +114,6 @@ int canMove(Player player, int key, Node *wallList) {
 
     else if(key == up)
         return player.y >= MINY + 2;
+
+    return 1;
 }

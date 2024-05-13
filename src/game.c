@@ -9,10 +9,11 @@
 
 int incX = 2, incY = 1;
 
-void initGame(Wall walls[]) {
+void initGame(Wall walls[], int tam_y) {
     int wallsSize = 0;
+    
     while (1) {
-        int x = (int) walls[wallsSize].x;
+        int x = walls[wallsSize].x;
         if(x) 
             wallsSize++;
         else break;
@@ -21,7 +22,11 @@ void initGame(Wall walls[]) {
     static int key = 0;
     int won;
 
-    screenDefaultInit(0);
+    if(tam_y == 0|| tam_y < 0)
+        screenDefaultInit(0);
+    else
+        screenInit(0, tam_y + 4);
+
     keyboardInit();
     timerInit(60);
     

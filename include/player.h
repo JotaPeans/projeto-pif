@@ -1,12 +1,12 @@
 typedef struct wall {
-    double x; // Coordenadas
-    double y;
+    int x; // Coordenadas
+    int y;
 } Wall;
 
 
 typedef struct free {
-    double x; // Coordenadas
-    double y;
+    int x; // Coordenadas
+    int y;
     int touched;
 } Free;
 
@@ -24,16 +24,16 @@ typedef struct nodeFree {
 
 
 typedef struct player {
-    double x; // Coordenadas
-    double y;
+    int x; // Coordenadas
+    int y;
 
     char *body;
 
-    double prevX; // Coordenadas anteriores
-    double prevY;
+    int prevX; // Coordenadas anteriores
+    int prevY;
 
-    double incX; // Aceleração
-    double incY;
+    int incX; // Aceleração
+    int incY;
 } Player;
 
 
@@ -51,4 +51,4 @@ int playerWon(Player player, NodeFree *listaFree);
 
 int canMove(Player player, int key, Node *wallList);
 
-void initGame(Wall walls[]);
+void initGame(Wall walls[], int tam_y);
