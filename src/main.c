@@ -29,7 +29,7 @@ int main() {
     timerInit(60);
 
 
-    while (key != 32) {
+    while (key != 10) {
 
         for(int i = 1; i <= levels; i++) {
             char str[10];
@@ -58,27 +58,7 @@ int main() {
             for(int i = 1; i <= levels; i++) {
                 printString(MAXX - 4, MINY + i, "  ", 0);            
             }
-            printString(MAXX - 4, MINY + level, "⬅️", YELLOW);    
-
-            
-            if(key == 10) {
-                screenDestroy();
-                keyboardDestroy();
-                timerDestroy();
-
-                Wall *walls = (Wall *) malloc(100 * sizeof(Wall));
-                int screenSize = 0;
-                
-                readWalls(file, walls, level, &screenSize);
-
-                initGame(walls, screenSize);
-
-                free(walls);
-
-                screenInit(1, levels + 2, 18);
-                keyboardInit();
-                timerInit(60);
-            }        
+            printString(MAXX - 4, MINY + level, "⬅️", YELLOW);         
 
             key = 0;
 
@@ -86,10 +66,19 @@ int main() {
         }
     }
 
-
     screenDestroy();
     keyboardDestroy();
     timerDestroy();
+
+    Wall *walls = (Wall *) malloc(100 * sizeof(Wall));
+    int screenSize = 0;
+    
+    readWalls(file, walls, level, &screenSize);
+
+    initGame(walls, screenSize);
+
+    free(walls);
+
 
     return 0;
 }

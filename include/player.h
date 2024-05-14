@@ -45,7 +45,7 @@ void buildWall(Node **lista, NodeFree **listaFree, Wall walls[], int wallsSize);
 
 int getFreeListSize(NodeFree *listaFree);
 
-void movePlayerOnMap(Player player, NodeFree *listaFree);
+void movePlayerOnMap(Player player, NodeFree *listaFree, char *color);
 
 int playerWon(Player player, NodeFree *listaFree);
 

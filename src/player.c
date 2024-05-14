@@ -1,4 +1,6 @@
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "player.h"
 #include "screen.h"
@@ -21,7 +23,7 @@ int getFreeListSize(NodeFree *listaFree) {
 }
 
 
-void movePlayerOnMap(Player player, NodeFree *listaFree) {
+void movePlayerOnMap(Player player, NodeFree *listaFree, char *color) {
     NodeFree *aux = listaFree;
 
     screenGotoxy(player.x, player.y);
@@ -29,7 +31,7 @@ void movePlayerOnMap(Player player, NodeFree *listaFree) {
 
     if(player.x != player.prevX || player.y != player.prevY) {
         screenGotoxy(player.prevX, player.prevY);
-        printf("🟧");
+        printf("%s", color);
         
         while(aux->free.x) {
             if(player.x == aux->free.x && player.y == aux->free.y) {

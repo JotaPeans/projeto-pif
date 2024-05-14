@@ -1,6 +1,7 @@
 #include <string.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "screen.h"
 #include "keyboard.h"
@@ -11,7 +12,15 @@
 int incX = 2, incY = 1;
 
 void initGame(Wall walls[], int tam_y) {
+    srand(time(NULL));
+    
     int wallsSize = 0;
+
+    char *colors[] = {
+        "🟫", "🟪", "🟦", "🟩", "🟨", "🟥"
+    };
+
+    int randomColorIndex = rand() % 5;
     
     while (1) {
         int x = walls[wallsSize].x;
@@ -82,7 +91,7 @@ void initGame(Wall walls[], int tam_y) {
                 key = 0;
             }
 
-            movePlayerOnMap(player, freeList);
+            movePlayerOnMap(player, freeList, colors[randomColorIndex]);
 
             won = playerWon(player, freeList);
 
@@ -94,8 +103,6 @@ void initGame(Wall walls[], int tam_y) {
             }
         }
     }
-
-    
 
     keyboardDestroy();
     screenDestroy();
