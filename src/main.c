@@ -105,7 +105,7 @@ void readWalls(const char* filename, Wall walls[], int level, int *screenSize) {
     
     while (fgets(line, sizeof(line), file)) {
 
-        size_t len = strlen(line);
+        int len = strlen(line);
         if (line[len - 1] == '\n') {
             line[len - 1] = '\0';  // Substitui '\n' por '\0'
         }
