@@ -17,28 +17,31 @@ void printString(int x, int y, char *string, int color);
 void readWalls(const char* filename, Wall walls[], int level, int *screenSize);
 int getLevelsLength(const char* filename);
 
+
 int main() {
     char *file = "levels.txt";
     int level = 1;
     int levels = getLevelsLength(file);
     int key = 0;
 
-    screenInit(1, levels + 2);
+    screenInit(1, levels + 2, 18);
     keyboardInit();
     timerInit(60);
 
-    for(int i = 1; i <= levels; i++) {
-        char str[10];
-        if(i < 10)
-            sprintf(str, "Nível 0%d", i);
-        else
-            sprintf(str, "Nível %d", i);
-
-        printString(MINX + 2, MINY + i, str, YELLOW);
-
-    }
 
     while (key != 32) {
+
+        for(int i = 1; i <= levels; i++) {
+            char str[10];
+            if(i < 10)
+                sprintf(str, "Nível 0%d", i);
+            else
+                sprintf(str, "Nível %d", i);
+
+            printString(MINX + 2, MINY + i, str, YELLOW);
+
+        }
+
         if (keyhit()) {
             key = readch();
             screenUpdate();
@@ -51,30 +54,42 @@ int main() {
             else if (key == down && level < levels) 
                 level++;
 
-            key = 0;
 
             for(int i = 1; i <= levels; i++) {
                 printString(MAXX - 4, MINY + i, "  ", 0);            
             }
-            printString(MAXX - 4, MINY + level, "⬅️", YELLOW);            
+            printString(MAXX - 4, MINY + level, "⬅️", YELLOW);    
+
+            
+            if(key == 10) {
+                screenDestroy();
+                keyboardDestroy();
+                timerDestroy();
+
+                Wall *walls = (Wall *) malloc(100 * sizeof(Wall));
+                int screenSize = 0;
+                
+                readWalls(file, walls, level, &screenSize);
+
+                initGame(walls, screenSize);
+
+                free(walls);
+
+                screenInit(1, levels + 2, 18);
+                keyboardInit();
+                timerInit(60);
+            }        
+
+            key = 0;
 
             screenUpdate();
         }
     }
 
 
-    keyboardDestroy();
     screenDestroy();
+    keyboardDestroy();
     timerDestroy();
-
-    Wall *walls = (Wall *) malloc(100 * sizeof(Wall));
-    int screenSize = 0;
-    
-    readWalls(file, walls, level, &screenSize);
-
-    initGame(walls, screenSize);
-
-    free(walls);
 
     return 0;
 }

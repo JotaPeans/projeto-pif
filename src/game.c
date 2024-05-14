@@ -20,13 +20,13 @@ void initGame(Wall walls[], int tam_y) {
         else break;
     }
 
-    static int key = 0;
+    int key = 0;
     int won;
 
     if(tam_y == 0|| tam_y < 0)
         screenDefaultInit(0);
     else
-        screenInit(0, tam_y + 4);
+        screenInit(0, tam_y + 4, (tam_y + 4) * 2);
 
     keyboardInit();
     timerInit(60);
@@ -94,6 +94,8 @@ void initGame(Wall walls[], int tam_y) {
             }
         }
     }
+
+    
 
     keyboardDestroy();
     screenDestroy();
