@@ -11,10 +11,13 @@
 
 int incX = 2, incY = 1;
 
-void initGame(Wall walls[], int tam_y) {
+void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) {
     srand(time(NULL));
     
-    int wallsSize = 0;
+    int wallsSize = 0, playerMoves = 0, minPlayerMovesToHunter = 4;
+
+    int key = 0, hunterKey = 0, ticksCount = 0;
+    int won;
 
     char *colors[] = {
         "🟫", "🟪", "🟦", "🟩", "🟨", "🟥"
@@ -29,8 +32,6 @@ void initGame(Wall walls[], int tam_y) {
         else break;
     }
 
-    int key = 0;
-    int won;
 
     if(tam_y == 0|| tam_y < 0)
         screenDefaultInit(0);
@@ -49,6 +50,10 @@ void initGame(Wall walls[], int tam_y) {
     player.prevY = player.y;
     player.body = "⬆️";
 
+    Player hunter;
+    hunter.incX = incX;
+    hunter.incY = incY;
+
     Node *wallList = NULL;
     NodeFree *freeList = NULL;
     
@@ -59,6 +64,17 @@ void initGame(Wall walls[], int tam_y) {
     while (key != 10) {
         if (keyhit() && key == 0) {
             key = readch();
+
+            if((key == up || key == down || key == left || key == right) && canMove(player, key, wallList)) {
+                pushQueue(&hunterCommandsQueue, key);
+                playerMoves++;
+            }
+
+            if(playerMoves == minPlayerMovesToHunter) {
+                hunter.body = "🗡️";
+                hunter.x = 4;
+                hunter.y = MAXY-2;
+            }
             
             screenUpdate();
         }
@@ -91,9 +107,46 @@ void initGame(Wall walls[], int tam_y) {
                 key = 0;
             }
 
+            if(
+                ticksCount % 10 == 0 && 
+                hunterKey == 0 && 
+                playerMoves >= minPlayerMovesToHunter && 
+                queueLength(hunterCommandsQueue) > 0
+            ) {
+                hunterKey = pollQueue(&hunterCommandsQueue);
+            }
+
+            if(hunter.x && hunter.y) {
+                hunter.prevY = hunter.y;
+                hunter.prevX = hunter.x;
+            }
+
+            if(hunterKey == up && canMove(hunter, hunterKey, wallList)) {
+                hunter.y -= hunter.incY;
+            }
+            else if(hunterKey == down && canMove(hunter, hunterKey, wallList)) {
+                hunter.y += hunter.incY;
+            }
+            else if(hunterKey == left && canMove(hunter, hunterKey, wallList)) {
+                hunter.x -= hunter.incX;
+            }
+            else if(hunterKey == right && canMove(hunter, hunterKey, wallList)) {
+                hunter.x += hunter.incX;
+            }
+            else {
+                hunterKey = 0;
+            }
+
             movePlayerOnMap(player, freeList, colors[randomColorIndex]);
+            moveHunterOnMap(hunter, colors[randomColorIndex]);
 
             won = playerWon(player, freeList);
+            
+            if(hunter.x && hunter.y) {
+                if(player.x == hunter.x && player.y == hunter.y) {
+                    break;
+                }
+            }
 
             screenUpdate();
 
@@ -102,7 +155,10 @@ void initGame(Wall walls[], int tam_y) {
                 break;
             }
         }
+
+        ticksCount++;
     }
+
 
     keyboardDestroy();
     screenDestroy();

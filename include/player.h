@@ -16,6 +16,10 @@ typedef struct node {
     struct node *next;
 } Node;
 
+typedef struct queue {
+    int command;
+    struct queue *next;
+} Queue;
 
 typedef struct nodeFree {
     Free free;
@@ -47,8 +51,18 @@ int getFreeListSize(NodeFree *listaFree);
 
 void movePlayerOnMap(Player player, NodeFree *listaFree, char *color);
 
+void moveHunterOnMap(Player hunter, char *color);
+
 int playerWon(Player player, NodeFree *listaFree);
 
 int canMove(Player player, int key, Node *wallList);
 
-void initGame(Wall walls[], int tam_y);
+void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y);
+
+void pushQueue(Queue **queue, int command);
+
+int pollQueue(Queue **queue);
+
+int queueLength(Queue *queue);
+
+void printQueue(Queue *queue);

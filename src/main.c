@@ -71,18 +71,18 @@ int main() {
     timerDestroy();
 
     Wall *walls = (Wall *) malloc(100 * sizeof(Wall));
+    Queue *hunterCommandsQueue = (Queue *) malloc(100 * sizeof(Queue));
+
     int screenSize = 0;
     
     readWalls(file, walls, level, &screenSize);
 
-    initGame(walls, screenSize);
+    initGame(walls, hunterCommandsQueue, screenSize);
 
     free(walls);
 
-
     return 0;
 }
-
 
 void printString(int x, int y, char *string, int color) {
     screenSetColor(color, DARKGRAY);

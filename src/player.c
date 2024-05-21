@@ -50,6 +50,18 @@ void movePlayerOnMap(Player player, NodeFree *listaFree, char *color) {
     }
 }
 
+void moveHunterOnMap(Player hunter, char *color) {
+    if(hunter.x && hunter.y) {
+        screenGotoxy(hunter.x, hunter.y);
+        printf("%s", hunter.body);
+
+        if(hunter.x != hunter.prevX || hunter.y != hunter.prevY) {
+            screenGotoxy(hunter.prevX, hunter.prevY);
+            printf("%s", color);
+        }
+    }
+}
+
 int playerWon(Player player, NodeFree *listaFree) {
     NodeFree *aux = listaFree;
     int touched = 0;
@@ -118,4 +130,55 @@ int canMove(Player player, int key, Node *wallList) {
         return player.y >= MINY + 2;
 
     return 1;
+}
+
+void pushQueue(Queue **queue, int command) {
+    Queue *aux, *new = (Queue *) malloc(sizeof(Queue));
+
+    new->command = command;
+    new->next = NULL;
+    
+    if(*queue == NULL) {
+        *queue = new;
+        return;
+    }
+    
+    aux = *queue;
+
+    while(aux->next != NULL) {
+        aux = aux->next;
+    }
+
+    new->next = aux->next;
+    aux->next = new;
+}
+
+int pollQueue(Queue **queue) {
+    (*queue) = (*queue)->next;
+
+    int value = (*queue)->command;
+
+    return value;
+}
+
+int queueLength(Queue *queue) {
+    Queue *aux = (Queue *) malloc(sizeof(Queue));
+    aux = queue;
+    int count = 0;
+
+    while(aux->next != NULL) {
+        aux = aux->next;
+        count++;
+    }
+    return count;
+}
+
+void printQueue(Queue *queue) {
+    Queue *aux = (Queue *) malloc(sizeof(Queue));
+    aux = queue;
+
+    while(aux->next != NULL) {
+        aux = aux->next;
+        printf("%d\n", aux->command);
+    }
 }
