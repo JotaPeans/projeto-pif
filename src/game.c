@@ -71,6 +71,7 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) {
             }
 
             if(playerMoves == minPlayerMovesToHunter) {
+                playerMoves++;
                 hunter.body = "🗡️";
                 hunter.x = 4;
                 hunter.y = MAXY-2;
@@ -108,7 +109,7 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) {
             }
 
             if(
-                ticksCount % 10 == 0 && 
+                ticksCount % 5 == 0 && 
                 hunterKey == 0 && 
                 playerMoves >= minPlayerMovesToHunter && 
                 queueLength(hunterCommandsQueue) > 0
