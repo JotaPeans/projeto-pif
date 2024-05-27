@@ -4,7 +4,7 @@
 #include "screen.h"
 #include "player.h"
 
-void pushWall(Node **lista, Wall wall) {
+void pushWall(Node **lista, Wall wall) { // função pra colocar uma parede numa lista de paredes
     Node *aux, *new = (Node *) malloc(sizeof(Node));
 
     new->wall = wall;
@@ -25,7 +25,7 @@ void pushWall(Node **lista, Wall wall) {
     aux->next = new;
 }
 
-void pushFree(NodeFree **lista, Free free) {
+void pushFree(NodeFree **lista, Free free) { // colocar um espaço vazio numa lista de espaço vazio
     NodeFree *aux, *new = (NodeFree *) malloc(sizeof(NodeFree));
 
     new->free = free;
@@ -46,7 +46,7 @@ void pushFree(NodeFree **lista, Free free) {
     aux->next = new;
 }
 
-void buildWall(Node **lista, NodeFree **listaFree, Wall walls[], int wallsSize) {
+void buildWall(Node **lista, NodeFree **listaFree, Wall walls[], int wallsSize) { // construção das paredes
     Wall wall;
     Free spaceFree;
     int size = strlen("⬜"); // 3

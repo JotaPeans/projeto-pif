@@ -54,7 +54,7 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) { // tam_y= p
     hunter.incX = incX;
     hunter.incY = incY;
 
-    Node *wallList = NULL;
+    Node *wallList = NULL; // declaração da variável que armazena as listas
     NodeFree *freeList = NULL;
     
     buildWall(&wallList, &freeList, walls, wallsSize);
@@ -66,7 +66,7 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) { // tam_y= p
             key = readch();
 
             if((key == up || key == down || key == left || key == right) && canMove(player, key, wallList)) {
-                pushQueue(&hunterCommandsQueue, key);
+                pushQueue(&hunterCommandsQueue, key); //armazena os movimentos do player pro hunter copiar 
                 playerMoves++;
             }
 
