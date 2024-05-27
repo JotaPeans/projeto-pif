@@ -11,23 +11,23 @@
 
 int incX = 2, incY = 1;
 
-void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) {
-    srand(time(NULL));
+void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) { // tam_y= paredes (são quadrados)
+    srand(time(NULL)); //semente da funções que aleatoriza os números (padrão)
     
     int wallsSize = 0, playerMoves = 0, minPlayerMovesToHunter = 4;
 
-    int key = 0, hunterKey = 0, ticksCount = 0;
-    int won;
+    int key = 0, hunterKey = 0, ticksCount = 0; //ticks= atraso na jogada do hunter
+    int won; // 1 ou 0 = ganhou ou não
 
     char *colors[] = {
-        "🟫", "🟪", "🟦", "🟩", "🟨", "🟥"
+        "🟫", "🟪", "🟦", "🟩", "🟨", "🟥" //forma aleatoria pra colorirr
     };
 
-    int randomColorIndex = rand() % 5;
+    int randomColorIndex = rand() % 5; //randomizador de cores
     
-    while (1) {
-        int x = walls[wallsSize].x;
-        if(x) 
+    while (1) { //  pega o tamanho da lista de paredes
+        int x = walls[wallsSize].x; // wallssize = conta quantos {  , }
+        if(x) // enquanto x tiver alguma coisa, soma a quant de elementos para a parede
             wallsSize++;
         else break;
     }
