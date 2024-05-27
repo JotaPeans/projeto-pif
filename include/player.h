@@ -66,3 +66,5 @@ int pollQueue(Queue **queue);
 int queueLength(Queue *queue);
 
 void printQueue(Queue *queue);
+
+void endGameMessage(char *string, int color);

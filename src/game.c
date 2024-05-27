@@ -109,7 +109,7 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) {
             }
 
             if(
-                ticksCount % 5 == 0 && 
+                ticksCount % 8 == 0 && 
                 hunterKey == 0 && 
                 playerMoves >= minPlayerMovesToHunter && 
                 queueLength(hunterCommandsQueue) > 0
@@ -160,6 +160,30 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) {
         ticksCount++;
     }
 
+    keyboardDestroy();
+    screenDestroy();
+    timerDestroy();
+
+    if(tam_y == 0|| tam_y < 0)
+        screenDefaultInit(1);
+    else
+        screenInit(1, tam_y + 4, (tam_y + 4) * 2);
+
+    keyboardInit();
+    timerInit(60);
+
+    if(won) {
+        endGameMessage("YOU WIN!!", GREEN);
+    }
+    else {
+        endGameMessage("YOU LOSE!!", RED);
+    }
+
+    while (key != 10) {
+        if (keyhit()) 
+            key = readch();
+    }
+
 
     keyboardDestroy();
     screenDestroy();
@@ -167,4 +191,11 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) {
 
     free(wallList);
     free(freeList);
+}
+
+void endGameMessage(char *string, int color) {
+    screenSetColor(color, DARKGRAY);
+    screenGotoxy((MAXX / 2) - (strlen(string) / 2), MAXY / 2 + 1);
+    printf("%s", string);
+    screenUpdate();
 }
