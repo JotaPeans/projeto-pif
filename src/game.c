@@ -36,12 +36,12 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) { // tam_y= p
     if(tam_y == 0|| tam_y < 0)
         screenDefaultInit(0);
     else
-        screenInit(0, tam_y + 4, (tam_y + 4) * 2);
+        screenInit(0, tam_y + 4, (tam_y + 4) * 2); // inicializa a tela 
 
-    keyboardInit();
-    timerInit(60);
+    keyboardInit(); // inicializa o teclado
+    timerInit(60); // timer = padrão
     
-    Player player;
+    Player player; // dados do player
     player.incX = incX;
     player.incY = incY;
     player.x = 4;
@@ -50,7 +50,7 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) { // tam_y= p
     player.prevY = player.y;
     player.body = "⬆️";
 
-    Player hunter;
+    Player hunter; // dados do hunter
     hunter.incX = incX;
     hunter.incY = incY;
 
@@ -59,7 +59,7 @@ void initGame(Wall walls[], Queue *hunterCommandsQueue, int tam_y) { // tam_y= p
     
     buildWall(&wallList, &freeList, walls, wallsSize);
     
-    screenUpdate();
+    screenUpdate(); // atualiza a tela
 
     while (key != 10) {
         if (keyhit() && key == 0) {
